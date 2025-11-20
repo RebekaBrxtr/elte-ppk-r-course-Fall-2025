@@ -44,7 +44,11 @@ expeditions |>
   ggplot(aes(peak_name, n, fill = peak_name)) +
     geom_col() +
     scale_fill_viridis_d() + 
-    theme_light() +
+    theme_light() + 
+    labs(
+      x = "Peaks" ,
+      y = "Number of expeditions"
+    ) +
     theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
   ) 
@@ -73,6 +77,10 @@ ggplot(phd_total, aes(broad_field, number_of_phds, fill = broad_field)) +
   scale_y_continuous(breaks = scales::pretty_breaks(), labels = scales::comma_format()) +
   scale_fill_brewer(palette = "Dark2") +
   theme_minimal() +
+  labs(
+    x = "Broad field",
+    y = "Number of PhDs"
+  ) +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1)
   ) 
@@ -91,6 +99,22 @@ Notes:
 -   The point size is 2, . The theme is set to light.
 
 ```{r}
+commute <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/refs/heads/main/data/2019/2019-11-05/commute.csv")
+View(commute)
+all_commutes_by_state <- commute |> 
+ filter(!is.na(state)) |> 
+  group_by(state) |>
+  summarise(number_of_commute = sum(n))
+View(all_commutes_by_state)
+ggplot(all_commutes_by_state, aes(state, number_of_commute)) +
+  geom_point(size = 2) + 
+  scale_y_log10(labels = scales::comma_format()) + 
+  theme_light() +
+  theme(
+  axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+
+  
 
 
 ```
