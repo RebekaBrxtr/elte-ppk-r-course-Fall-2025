@@ -59,6 +59,9 @@ In your discussion of the findings, briefly interpret the results of the above a
 Read the dataset used in this assignment. Pay attention to the extension of the datafile.
 
 ```{r}
+library(readxl)
+patient_data <- read_excel("/Users/rebekabraxator/Documents/University/R_programming/assignment_3_dataset.xlsx")
+View(patient_data)
 
 ```
 
@@ -69,6 +72,67 @@ Read the dataset used in this assignment. Pay attention to the extension of the 
 Run an exploratory data analysis (EDA) to investigate the dataset.
 
 ```{r}
+# Check pain values 
+min(patient_data$pain)
+max(patient_data$pain)
+mean(patient_data$pain)
+sd(patient_data$pain)
+
+# Check STAI_trait 
+min(patient_data$STAI_trait)
+max(patient_data$STAI_trait)
+mean(patient_data$STAI_trait)
+sd(patient_data$STAI_trait)
+
+#Check pain_cat
+min(patient_data$pain_cat)
+max(patient_data$pain_cat)
+mean(patient_data$pain_cat)
+sd(patient_data$pain_cat)
+
+# Check cortisol_serum
+min(patient_data$cortisol_serum)
+max(patient_data$cortisol_serum)
+mean(patient_data$cortisol_serum)
+sd(patient_data$cortisol_serum)
+
+# Check cortisol_saliva
+min(patient_data$cortisol_saliva)
+max(patient_data$cortisol_saliva)
+mean(patient_data$cortisol_saliva)
+sd(patient_data$cortisol_saliva)
+
+# Check mindfulness values 
+min(patient_data$mindfulness)
+max(patient_data$mindfulness)
+mean(patient_data$mindfulness)
+sd(patient_data$mindfulness)
+
+# Check weight 
+min(patient_data$weight)
+max(patient_data$weight)
+mean(patient_data$weight)
+sd(patient_data$weight)
+
+# Check age 
+min(patient_data$age)
+max(patient_data$age)
+mean(patient_data$age)
+sd(patient_data$age)
+
+# Check IQ
+min(patient_data$IQ)
+max(patient_data$IQ)
+mean(patient_data$IQ)
+sd(patient_data$IQ)
+
+# Count males and females and check for inconsistencies 
+library(dplyr)
+patient_data |> count(sex)
+
+
+
+
 
 ```
 
@@ -77,6 +141,11 @@ Run an exploratory data analysis (EDA) to investigate the dataset.
 If you find values in the dataset during the EDA, that are not correct based on the provided descriptions of the variables of the dataset please correct them here.
 
 ```{r}
+# Remove patient with invalid values  
+clean_data <- patient_data |> filter(pain >= 0 & pain <= 10)
+clean_data <- clean_data |> filter(mindfulness >= 0 & mindfulness <= 6)
+# Change incorrect sex category 
+clean_data <- clean_data |> mutate(sex = ifelse(sex == "woman", "female", sex))
 
 ```
 
