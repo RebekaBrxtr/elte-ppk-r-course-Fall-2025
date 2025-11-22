@@ -72,6 +72,10 @@ View(patient_data)
 Run an exploratory data analysis (EDA) to investigate the dataset.
 
 ```{r}
+# Package for data analysis
+install.packages("lm.beta")
+library(lm.beta) 
+
 # Check pain values 
 min(patient_data$pain)
 max(patient_data$pain)
@@ -146,6 +150,7 @@ clean_data <- patient_data |> filter(pain >= 0 & pain <= 10)
 clean_data <- clean_data |> filter(mindfulness >= 0 & mindfulness <= 6)
 # Change incorrect sex category 
 clean_data <- clean_data |> mutate(sex = ifelse(sex == "woman", "female", sex))
+View(clean_data)
 
 ```
 
@@ -155,6 +160,20 @@ clean_data <- clean_data |> mutate(sex = ifelse(sex == "woman", "female", sex))
 In order to test the more complex model for outliers and to test the assumptions first build the model.
 
 ```{r}
+
+simple_model <- lm(pain ~ age + sex, data = clean_data)
+summary(simple_model)
+confint(simple_model) #Confidence interval 
+lm.beta(simple_model) # It gives the effect size
+AIC(simple_model)
+
+complex_model <- lm(pain ~ age + sex + STAI_trait + pain_cat + mindfulness + cortisol_serum + cortisol_saliva, data = clean_data)
+summary(complex_model)
+confint(complex_model)
+lm.beta(complex_model)
+AIC(complex_model)
+
+anova(simple_model, complex_model)
 
 ```
 
